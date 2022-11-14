@@ -176,63 +176,13 @@ graph.addEdge(dallas, nashville, 664);
 
 console.log(graph.Dijkstra('Miami', 'Atlanta'));
 
-// first attempt and some basic logic
-// function buildLoads(orders) {
-//   let truckCount = 0;
-//   orders.forEach((order) => (truckCount += order.pallets));
-//   console.log(Math.ceil(truckCount / 26));
-//   let load1 = [];
-//   let load2 = [];
-
-//   const initialDistances = orders
-//     .map((order) => {
-//       return {
-//         destination: order.dropCity,
-//         distance: graph.Dijkstra(order.pickCity, order.dropCity),
-//       };
-//     })
-//     .sort((a, b) => a.distance - b.distance);
-
-//   console.log(initialDistances);
-
-//   load1.push(initialDistances.shift().destination);
-
-//   console.log(load1[0]);
-//   console.log(initialDistances);
-
-//   const secondDrop = initialDistances
-//     .map((order) => {
-//       return {
-//         destination: order.destination,
-//         distance: graph.Dijkstra(load1[0], order.destination),
-//       };
-//     })
-//     .sort((a, b) => a.distance - b.distance);
-
-//   load1.push(secondDrop.shift().destination);
-
-//   console.log(load1);
-// }
-
-// buildLoads(orders);
-
-// class Load {
-//   constructor() {
-//     this.load = 1;
-//     this.route = [];
-//     this.pallets = 0;
-//     this.totalMiles = 0;
-//     this.distance = 0;
-//   }
-// }
-
-// pseudo code
-
 const orders = [
   { order: 1, pickCity: 'Miami', dropCity: 'Tampa', pallets: 5 },
   { order: 2, pickCity: 'Miami', dropCity: 'Nashville', pallets: 15 },
   { order: 3, pickCity: 'Miami', dropCity: 'Houston', pallets: 3 },
   { order: 4, pickCity: 'Miami', dropCity: 'Atlanta', pallets: 10 },
+  { order: 5, pickCity: 'Miami', dropCity: 'Miami', pallets: 10 },
+  { order: 6, pickCity: 'Miami', dropCity: 'Jackson', pallets: 17 },
 ];
 
 class Load {
@@ -269,6 +219,7 @@ function buildOptimizedLoads(orders) {
 
     let orderedOptions = available
       .map((order) => {
+        console.log(previousCity);
         return {
           order: order.order,
           pickCity: order.pickCity,
@@ -287,6 +238,7 @@ function buildOptimizedLoads(orders) {
       } else if (26 - (newLoad.pallets + orderedOptions[0].pallets) >= 0) {
         newLoad.route.push(orderedOptions[0]);
         newLoad.pallets += orderedOptions[0].pallets;
+        newLoad.totalMiles += orderedOptions[0].distance;
         previousCity = orderedOptions[0].dropCity;
 
         console.log(available);
