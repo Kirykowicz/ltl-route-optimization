@@ -2,7 +2,7 @@ let orders = require('./data');
 let buildOptimizedLoads = require('./buildOptimizedLoads');
 
 const renderOutput = (input, time = 30000) => {
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise((resolve, _) => {
     resolve(buildOptimizedLoads(input));
   });
 

@@ -1,5 +1,4 @@
 let graph = require('./graph');
-let orders = require('./data');
 let classes = require('./classes');
 let Load = classes.Load;
 
@@ -70,21 +69,7 @@ function buildOptimizedLoads(orders) {
     }
   });
 
-  // return new Promise((resolve, reject) => {
-  //   const timeout = setTimeout(() => {
-  //     reject('rejected');
-  //   }, time);
-
-  //   if (results) {
-  //     clearTimeout(timeout);
-  //     resolve(results);
-  //   }
-  // });
   return results;
 }
-
-// console.log(JSON.stringify(buildOptimizedLoads(orders)));
-// console.log(buildOptimizedLoads(orders));
-// console.log(buildOptimizedLoads(orders));
 
 module.exports = buildOptimizedLoads;

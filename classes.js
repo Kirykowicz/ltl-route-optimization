@@ -1,3 +1,4 @@
+// PriorityQueue class created to be used in the findShortestPath instance method in WeightedGraph class
 class PriorityQueue {
   constructor() {
     this.values = [];
@@ -17,6 +18,7 @@ class PriorityQueue {
   }
 }
 
+// This is the core of the program, this weighted graph allows us to represent the map and distances provided in the instructions in code form. The findShortestPath method allows us to find the shortest distance between two points on the map.
 class WeightedGraph {
   constructor() {
     this.adjacencyList = {};
@@ -54,7 +56,6 @@ class WeightedGraph {
     while (nodes.values.length) {
       smallest = nodes.dequeue().val;
       if (smallest === finish) {
-        // We are done
         // Build up path to return to end
         while (previous[smallest]) {
           path.push(smallest);
@@ -85,6 +86,7 @@ class WeightedGraph {
   }
 }
 
+// Instances of the Load class will be used to build the actual loads in the output array.
 class Load {
   constructor() {
     this.load = 1;
