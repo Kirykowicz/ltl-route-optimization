@@ -31,7 +31,7 @@ class WeightedGraph {
     this.adjacencyList[vertex2].push({ node: vertex1, weight });
   }
 
-  Dijkstra(start, finish) {
+  findShortestPath(start, finish) {
     const nodes = new PriorityQueue();
     const distances = {};
     const previous = {};
