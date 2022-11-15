@@ -98,7 +98,7 @@ module.exports = graph;
     route: [
       { city: 'Miami', type: 'pick', orders: [1, 3] },
       { city: 'Tampa', type: 'drop', orders: [1] },
-      { city: 'Housto n', type: 'drop', orders: [3] },
+      { city: 'Houston', type: 'drop', orders: [3] },
     ],
     pallets: 8,
     totalMiles: 1291,

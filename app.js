@@ -13,15 +13,8 @@ function buildOptimizedLoads(orders) {
     let newLoad = new Load();
     newLoad.load = loads;
 
-    // let previousCity = available[0].pickCity;
-    // if (!newLoad.route.length) {
-    //   previousCity = available[0].pickCity;
-    // } else {
-    //   previousCity = newLoad.route[newLoad.route.length - 1].dropCity;
-    // }
-
-    function orderOptions(a, previousCity = a[0].pickCity) {
-      return a
+    function sortedOptions(orders, previousCity = orders[0].pickCity) {
+      return orders
         .map((order) => {
           return {
             order: order.order,
@@ -41,23 +34,39 @@ function buildOptimizedLoads(orders) {
         newLoad.route.push(orderedOptions[0]);
         newLoad.pallets += orderedOptions[0].pallets;
         newLoad.totalMiles += orderedOptions[0].distance;
-        newLoad.previousCity = orderedOptions[0].dropCity;
-        console.log(orderedOptions[0].dropCity);
         previousCity = orderedOptions[0].dropCity;
 
         available = available.filter(
           (element) => element.order !== orderedOptions[0].order
         );
         orderedOptions.shift();
-        return doSomething(orderOptions(orderedOptions, previousCity));
+        return doSomething(sortedOptions(orderedOptions, previousCity));
       } else {
         return doSomething(orderedOptions.slice(1));
       }
-    })(orderOptions(available));
+    })(sortedOptions(available));
 
     results.push(newLoad);
   }
-  return results[0];
+  // Format output data
+  results.forEach((result) =>
+    result.route.unshift({
+      city: result.route[0].pickCity,
+      type: 'pick',
+      orders: [],
+    })
+  );
+  results.forEach((result) => {
+    for (let i = 1; i < result.route.length; i++) {
+      result.route[0].orders.push(result.route[i].order);
+      result.route[i] = {
+        city: result.route[i].dropCity,
+        type: 'drop',
+        orders: [result.route[i].order],
+      };
+    }
+  });
+  return results[0].route;
 }
 
 // console.log(JSON.stringify(buildOptimizedLoads(orders)));
