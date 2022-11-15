@@ -7,7 +7,6 @@ function buildOptimizedLoads(orders) {
   let loads = 1;
   let available = orders.slice();
   let results = [];
-  // console.log(available);
   let previousCity = available[0].pickCity;
 
   while (available.length) {
@@ -16,7 +15,6 @@ function buildOptimizedLoads(orders) {
 
     let orderedOptions = available
       .map((order) => {
-        // console.log(previousCity);
         return {
           order: order.order,
           pickCity: order.pickCity,
@@ -27,8 +25,6 @@ function buildOptimizedLoads(orders) {
       })
       .sort((a, b) => a.distance - b.distance);
 
-    // console.log(orderedOptions);
-
     (function doSomething(orderedOptions) {
       if (!orderedOptions.length) {
         return;
@@ -38,7 +34,6 @@ function buildOptimizedLoads(orders) {
         newLoad.totalMiles += orderedOptions[0].distance;
         previousCity = orderedOptions[0].dropCity;
 
-        // console.log(available);
         available = available.filter(
           (element) => element.order !== orderedOptions[0].order
         );
