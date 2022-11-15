@@ -1,29 +1,38 @@
 let graph = require('./graph');
-let classes = require('./classes');
 let orders = require('./data');
+let classes = require('./classes');
 let Load = classes.Load;
 
 function buildOptimizedLoads(orders) {
-  let loads = 1;
+  let loads = 0;
   let available = orders.slice();
   let results = [];
-  let previousCity = available[0].pickCity;
 
   while (available.length) {
+    loads++;
     let newLoad = new Load();
-    newLoad.load = loads++;
+    newLoad.load = loads;
 
-    let orderedOptions = available
-      .map((order) => {
-        return {
-          order: order.order,
-          pickCity: order.pickCity,
-          dropCity: order.dropCity,
-          pallets: order.pallets,
-          distance: graph.Dijkstra(previousCity, order.dropCity),
-        };
-      })
-      .sort((a, b) => a.distance - b.distance);
+    // let previousCity = available[0].pickCity;
+    // if (!newLoad.route.length) {
+    //   previousCity = available[0].pickCity;
+    // } else {
+    //   previousCity = newLoad.route[newLoad.route.length - 1].dropCity;
+    // }
+
+    function orderOptions(a, previousCity = a[0].pickCity) {
+      return a
+        .map((order) => {
+          return {
+            order: order.order,
+            pickCity: order.pickCity,
+            dropCity: order.dropCity,
+            pallets: order.pallets,
+            distance: graph.Dijkstra(previousCity, order.dropCity),
+          };
+        })
+        .sort((a, b) => a.distance - b.distance);
+    }
 
     (function doSomething(orderedOptions) {
       if (!orderedOptions.length) {
@@ -32,21 +41,23 @@ function buildOptimizedLoads(orders) {
         newLoad.route.push(orderedOptions[0]);
         newLoad.pallets += orderedOptions[0].pallets;
         newLoad.totalMiles += orderedOptions[0].distance;
+        newLoad.previousCity = orderedOptions[0].dropCity;
+        console.log(orderedOptions[0].dropCity);
         previousCity = orderedOptions[0].dropCity;
 
         available = available.filter(
           (element) => element.order !== orderedOptions[0].order
         );
         orderedOptions.shift();
-        return doSomething(orderedOptions);
+        return doSomething(orderOptions(orderedOptions, previousCity));
       } else {
         return doSomething(orderedOptions.slice(1));
       }
-    })(orderedOptions);
+    })(orderOptions(available));
 
     results.push(newLoad);
   }
-  return results;
+  return results[0];
 }
 
 // console.log(JSON.stringify(buildOptimizedLoads(orders)));
