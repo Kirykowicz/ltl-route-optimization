@@ -1,6 +1,6 @@
 # ltl-route-optimization
 
-First and foremost, to run this application enter node app into the console and hit enter.
+First and foremost, to run this application enter node app.js into the terminal and hit enter.
 
 My thought process in building this function is as follows:
 

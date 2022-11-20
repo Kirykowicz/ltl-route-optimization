@@ -1,9 +1,9 @@
 let classes = require('./classes');
 let WeightedGraph = classes.WeightedGraph;
 
-// Below, first I am saving all city names as a variable, the only reason I am doing this is to prevent typos when creating vertices and edges along the weighted graph.
-// Next I am either calling the addVertex, or addEdge instance methods to create the actual vertices and edges in this weighted graph. Which, as long as I did not make any errors should the exact representation of the map provided in the instructions, but in "code-form"
-// As a note, this is was a long and tedious way to create the graph, I could have just hard coded this into the adjaceny list, but I think this helped to prevent errors.
+// Below: first I am saving every city names as a variable, the only reason I am doing this is to prevent typos when creating vertices and edges along the weighted graph.
+// Next I am either calling the addVertex, or addEdge instance methods to create the actual vertices and edges in this weighted graph. Which, as long as I did not make any errors should an exact representation of the map provided in the instructions, but in "code form"
+// As a note, this was a long and tedious way to create the graph, I could have just hard-coded this into the adjaceny list, but I think going about it this way helped to prevent errors.
 
 const miami = 'Miami';
 const tampa = 'Tampa';

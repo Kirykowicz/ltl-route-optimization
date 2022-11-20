@@ -37,7 +37,7 @@ class WeightedGraph {
     const nodes = new PriorityQueue();
     const distances = {};
     const previous = {};
-    let path = []; // to return at end
+    let path = [];
     let smallest;
 
     // build up initial state
@@ -56,7 +56,6 @@ class WeightedGraph {
     while (nodes.values.length) {
       smallest = nodes.dequeue().val;
       if (smallest === finish) {
-        // Build up path to return to end
         while (previous[smallest]) {
           path.push(smallest);
           smallest = previous[smallest];
