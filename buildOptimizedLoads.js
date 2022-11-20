@@ -12,7 +12,7 @@ function buildOptimizedLoads(orders) {
     let newLoad = new Load();
     newLoad.load = loads;
 
-    // This function takes that orders that have not been used yet, and sorts them in order, by distance, from the previous drop or if it is the first drop, then in order from the origin.
+    // This function takes the orders that have not been assigned yet, and sorts them in order, by distance, from the previous drop or if it is the first drop, then in order from the origin.
     function sortedOptions(orders, previousCity = orders[0].pickCity) {
       return orders
         .map((order) => {
@@ -27,7 +27,7 @@ function buildOptimizedLoads(orders) {
         .sort((a, b) => a.distance - b.distance);
     }
 
-    // This is a recursive function that uses the process of elimination to add drops to a load. It starts by taking the order that is the shortest distance from either the origin or the previous delivery. If there is enough space on the truck, the function then calls itself recursively, if there is not enought room for that order, than that order is removed from the available options, and the function will call itself again recursively. This continues until there are no more options that have been attempted. After that, this load is pushed to results, and and new Load is created. Starting the process over again. This repeats until all orders have been gone through.
+    // This is a recursive function that uses the process of elimination to add drops to a load. It starts by taking the order that is the shortest distance from either the origin or the previous delivery. If there is enough space on the truck, the function then calls itself recursively, if there is not enough room for that order, than that order is removed from the available options, and the function will call itself again recursively. This continues until there are no more options that have been attempted to be assigned. After that, this load is pushed to results, and and a new Load is created. Starting the process over again. This repeats until all orders have been gone through and assigned to a Load.
     (function addOrders(orderedOptions) {
       if (!orderedOptions.length) {
         return;
@@ -50,7 +50,7 @@ function buildOptimizedLoads(orders) {
     results.push(newLoad);
   }
 
-  // Format output data to look like the example output data
+  // Format the output data to look like the example output data in the instructions
   results.forEach((result) =>
     result.route.unshift({
       city: result.route[0].pickCity,
